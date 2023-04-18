@@ -21,9 +21,10 @@
 
 # System Architecture
 
-![Untitled Diagram.jpeg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e62f4eeb-1463-4175-9d44-d7afd2346923/Untitled_Diagram.jpeg)
-
 Covered system scope is highlighted in blue
+
+![notion 1](https://user-images.githubusercontent.com/112774144/232819981-a0ea57ee-2b8a-4fe7-83b0-1d5b692bddc3.jpeg)
+ 
 
 # Database Design
 
@@ -58,28 +59,28 @@ create table crawlerlink (
 
 # Methodology:
 
-1. [https://www.chotot.com/mua-ban](https://www.chotot.com/mua-ban) displays all product with no category. Thus it will give us the best chance to scrape for links to product details page. Simple `AdItem_adItem__gDDQT` search will give you the element for the product detail links. Since the page is paginated we can navigate by visiting each pagination [https://www.chotot.com/mua-ban?page=](https://www.chotot.com/mua-ban?page=2)3
+1. [https://www.chotot.com/mua-ban](https://www.chotot.com/mua-ban) displays all product with no category. Thus it will give us the best chance to scrape for links to product details page. Simple `AdItem_adItem__gDDQT` search will give you the element for the product detail links. Since the page is paginated we can navigate by visiting each pagination [https://www.chotot.com/mua-ban?page=](https://www.chotot.com/mua-ban?page=2)
 
-![Screen Shot 2022-12-01 at 17.57.57.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/77317c9d-c27b-40ce-8ca2-607c40b35018/Screen_Shot_2022-12-01_at_17.57.57.png)
+![notion2](https://user-images.githubusercontent.com/112774144/232820150-d5dd8396-28f8-41b5-8a9d-20792108fe35.png)
+For this Jsoup is used as only static content is needed to get the product detail links.
 
-- For this Jsoup is used as only static content is needed to get the product detail links.
-1. There are instances where the product link is not complete as it is hosted in the same domain as the product list page. Which will cause errors when we are trying to navigate to the detail page
-    
-    ![Screen Shot 2022-12-01 at 18.05.42.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1932e154-f189-4638-8d54-71ad8688c4f3/Screen_Shot_2022-12-01_at_18.05.42.png)
-    
+2. There are instances where the product link is not complete as it is hosted in the same domain as the product list page. Which will cause errors when we are trying to navigate to the detail page
+![notion3](https://user-images.githubusercontent.com/112774144/232820445-94d8c432-92ac-418d-adcd-8dd629ebf442.png)
+
 - Simple approach is to clean the data and insert the domain as link
-    
-    ![Screen Shot 2022-12-01 at 18.06.53.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1861fa8a-334c-4858-91f2-ccc2da8b540b/Screen_Shot_2022-12-01_at_18.06.53.png)
-    
+![notion4](https://user-images.githubusercontent.com/112774144/232820544-383bbb1d-a2ed-4076-9659-8e9feb8af2de.png)
+
 
 1. SQL is used as a source of truth for the APIs, I developed 2 APIs which can both be hit simultaneously since multithreading is the default for springboot. One to parse and store the links from the homepage, one to parse the phone number using selenium.
     1. `/crawler/all/{pagination}` is to scrape data according to the page
     2. `/crawler/process` open product detail pages asynchronously for the crawler to scrape the data
-    
-    ![Screen Shot 2022-12-01 at 19.38.40.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/41d1b895-73b3-4f4f-9f47-56471fc11ad2/Screen_Shot_2022-12-01_at_19.38.40.png)
+ ![notion5](https://user-images.githubusercontent.com/112774144/232820670-f6c58b21-a655-4b69-ada2-cd05c3429e37.png)
+
     
     # Code:
     
     [GitHub - lpbern/mybatis-crawler](https://github.com/lpbern/mybatis-crawler/tree/master)
     
     # Sample Result:
+    ![notion6](https://user-images.githubusercontent.com/112774144/232820722-bac92cd2-639f-473f-a27d-672bceb51cfe.png)
+
